@@ -384,6 +384,17 @@
       object-fit: cover
     }
 
+    .gallery img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .resources .scroller {
+      grid-auto-columns: min(340px, 88%);
+      /* probá 340–380px a gusto */
+    }
+
     .timeline {
       display: grid;
       gap: 12px;
@@ -429,8 +440,11 @@
 
     .recipe-card img {
       width: 100%;
-      height: 150px;
-      object-fit: cover
+      height: 260px;
+      /* sin altura fija */
+      object-fit: cover;
+      /* no recorta */
+      display: block;
     }
 
     .rc-body {
@@ -927,12 +941,10 @@
             <p>Te la mando por mail, lista para imprimir o guardar en tu celu.</p>
 
             <!-- Usa tu Form ID real ↓ -->
-            <form id="leadForm" action="https://formspree.io/f/xblaqkvr" method="POST" class="lead-form">
-              <input type="hidden" name="_subject" value="Lead: guía de desayunos">
-              <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
-              <input type="text" name="nombre" placeholder="Tu nombre" required>
-              <input type="email" name="email" placeholder="Tu email" required>
-              <button type="submit" class="btn">Recibir la guía</button>
+            <form id="leadForm" class="lead-form">
+              <input type="text" name="nombre" placeholder="Tu nombre">
+              <input type="email" name="email" placeholder="Tu email (opcional)">
+              <button type="button" id="getGuideBtn" class="btn">Recibir la guía</button>
             </form>
             <p class="lead-note">Prometido: nada de spam. Solo recursos útiles.</p>
           </div>
@@ -1107,39 +1119,23 @@
     }
     function escClose(e) { if (e.key === 'Escape') closeThanks(); }
 
-    // En tu handler del lead, después de abrir el PDF:
-    const w = window.open(LEAD_PDF, '_blank');
-    if (!w) { window.location.href = LEAD_PDF; } // fallback si bloquean popups
-    openThanks();
-
     // --- Lead (descarga directa)
-    const leadForm = document.getElementById('leadForm');
     const LEAD_PDF = '/docs/ebook-habitos-saludables.pdf';
+    const getBtn = document.getElementById('getGuideBtn');
 
-    leadForm?.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const endpoint = leadForm.action;
-      const data = new FormData(leadForm);
-      const btn = leadForm.querySelector('button[type="submit"]');
-      const original = btn.textContent;
-      btn.disabled = true; btn.textContent = 'Enviando…';
-      try {
-        const res = await fetch(endpoint, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
-        if (res.ok) {
-          showToast('¡Listo! Revisá tu correo. Abriendo guía… 🌿');
-          leadForm.reset();
-          window.open(LEAD_PDF, '_blank');   // ← abre el PDF
-        } else {
-          const json = await res.json().catch(() => ({}));
-          const msg = (json?.errors) ? json.errors.map(e => e.message).join(', ') : 'No se pudo enviar. Probá de nuevo.';
-          showToast(msg, true);
-        }
-      } catch {
-        showToast('Error de red. Probá otra vez.', true);
-      } finally {
-        btn.disabled = false; btn.textContent = original;
-      }
+    getBtn?.addEventListener('click', () => {
+      // Dispara la descarga
+      const a = document.createElement('a');
+      a.href = LEAD_PDF;
+      a.setAttribute('download', 'ebook-habitos-saludables.pdf'); // sugerencia de nombre
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      // Muestra el modal
+      openThanks();
     });
+
 
   </script>
   <div id="thanksModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="tmTitle" aria-hidden="true">
