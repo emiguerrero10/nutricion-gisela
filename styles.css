@@ -189,3 +189,9 @@ p{ margin: 0 0 1rem; color: var(--muted); }
 
 /* Pequeños detalles extra */
 .accent{ color: var(--brand); }
+
+.whats{
+  position:fixed; right:18px; bottom:18px;
+  width:auto; height:auto; border-radius:0;
+  background:transparent; box-shadow:none; text-decoration:none;
+}
