@@ -379,15 +379,9 @@
 
     .gallery img {
       border-radius: 14px;
-      height: 110px;
+      height: 200px;
       width: 100%;
       object-fit: cover
-    }
-
-    .gallery img {
-      width: 100%;
-      height: auto;
-      object-fit: contain;
     }
 
     .resources .scroller {
@@ -407,17 +401,6 @@
       border-radius: 16px;
       padding: 14px 16px;
       box-shadow: var(--shadow)
-    }
-
-    /* Recursos */
-    .resources .scroller {
-      display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: min(260px, 80%);
-      gap: 14px;
-      overflow-x: auto;
-      padding-bottom: 6px;
-      scroll-snap-type: x mandatory
     }
 
     .resources .scroller::-webkit-scrollbar {
@@ -517,7 +500,38 @@
     .contact-grid {
       display: grid;
       grid-template-columns: 1.1fr .9fr;
-      gap: 20px
+      gap: 20px;
+      align-items: stretch;
+      /* para igualar alturas */
+    }
+
+    /* Variante del aside para foto a full */
+    .aside--foto {
+      padding: 0;
+      /* sin padding para que la imagen ocupe 100% */
+      background: none;
+      /* quitamos el degradado del aside base */
+      border: 1px solid var(--brd);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      /* recorta la foto dentro de los bordes redondeados */
+    }
+
+    /* La imagen ocupa ancho y alto completo del aside */
+    .aside--foto img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      /* recorte elegante sin deformar */
+    }
+
+    /* En mobile, hacemos la imagen más baja para no alargar de más */
+    @media (max-width:1020px) {
+      .aside--foto img {
+        height: 260px;
+      }
     }
 
     form {
@@ -643,10 +657,6 @@
         grid-template-columns: repeat(3, 1fr)
       }
 
-      .contact-grid {
-        grid-template-columns: 1fr
-      }
-
       .menu {
         position: fixed;
         inset: 64px 0 auto 0;
@@ -759,6 +769,77 @@
 
     .modal .box .btn {
       margin-top: 10px
+    }
+
+    /* ==== Modal recetas ==== */
+    .modal-receta {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      background: rgba(0, 0, 0, .45);
+      z-index: 10000;
+    }
+
+    .modal-receta.show {
+      display: grid;
+    }
+
+    .modal-receta .box {
+      width: min(720px, 92%);
+      max-height: 86vh;
+      overflow: auto;
+      background: #fff;
+      border: 1px solid var(--brd);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .modal-receta header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      background: #fff;
+      padding-bottom: 6px;
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--brd);
+    }
+
+    .modal-receta h3 {
+      margin: 0;
+    }
+
+    .modal-receta .close {
+      border: 0;
+      background: #f1f6f4;
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .modal-receta .heroimg {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin: 8px 0 12px;
+    }
+
+    .modal-receta h4 {
+      margin: 12px 0 6px;
+    }
+
+    .modal-receta ul {
+      margin: 0 0 10px 18px;
+    }
+
+    .recipe-card {
+      cursor: pointer;
     }
   </style>
 </head>
@@ -892,7 +973,7 @@
         </p>
 
         <div class="scroller" aria-label="Recetas destacadas">
-          <article class="recipe-card reveal">
+          <article class="recipe-card reveal" data-recipe="bowl">
             <img src="/img/nutricion1-1.jpeg" alt="Bowl saludable">
             <div class="rc-body">
               <h3>Bowl power AM</h3>
@@ -900,7 +981,7 @@
               <div class="rc-tags"><span>desayuno</span><span>rápido</span></div>
             </div>
           </article>
-          <article class="recipe-card reveal">
+          <article class="recipe-card reveal" data-recipe="merienda">
             <img src="/img/nutricion1-4.jpeg" alt="Tostadas integrales con palta y huevo">
             <div class="rc-body">
               <h3>Merienda Completa</h3>
@@ -908,7 +989,7 @@
               <div class="rc-tags"><span>brunch</span><span>simple</span></div>
             </div>
           </article>
-          <article class="recipe-card reveal">
+          <article class="recipe-card reveal" data-recipe="torta">
             <img src="/img/nutricion1-5.jpeg" alt="Torta de manzana">
             <div class="rc-body">
               <h3>Torta invertida de manzana integral</h3>
@@ -916,10 +997,10 @@
               <div class="rc-tags"><span>almuerzo</span><span>plant-based</span></div>
             </div>
           </article>
-          <article class="recipe-card reveal">
+          <article class="recipe-card reveal" data-recipe="snack">
             <img src="/img/nutricion1-3.jpeg" alt="Untable de girasol y zanahorias">
             <div class="rc-body">
-              <h3>Snack de estación</h3>
+              <h3>Snack saludable</h3>
               <p>Perfecto para sumar a tus picadas</p>
               <div class="rc-tags"><span>snack</span><span>práctico</span></div>
             </div>
@@ -937,7 +1018,7 @@
         <!-- Lead magnet -->
         <div class="leadbox reveal">
           <div class="lead-copy">
-            <h3>Guía gratis: 7 desayunos saludables</h3>
+            <h3>Ebook 10 habitos saludables - Descargalo gratis</h3>
             <p>Te la mando por mail, lista para imprimir o guardar en tu celu.</p>
 
             <!-- Usa tu Form ID real ↓ -->
@@ -1006,17 +1087,9 @@
                 rel="noopener">política de privacidad</a>.</p>
           </form>
         </div>
-        <aside class="aside reveal">
-          <h3>Contacto directo</h3>
-          <ul>
-            <li>📍 B° Gral Paz</li>
-            <li>🕒 Horarios: Lun–Vie [9–18]</li>
-            <li>📧 turnos@tusitio.com</li>
-            <li>📱 <a href="https://wa.me/5493543582107" target="_blank" rel="noopener">WhatsApp</a></li>
-          </ul>
-          <div class="mini-map" style="margin-top:10px">
-            <img src="/img/nutricion1-1.jpeg" alt="Ubicación / consultorio">
-          </div>
+        <aside class="aside aside--foto reveal" aria-label="Nutrición consciente">
+          <img src="/img/nutricion1-16.jpeg" alt="Nutrición consciente" loading="lazy"
+            onerror="this.src='/img/nutricion1-16.jpg'">
         </aside>
       </div>
     </section>
@@ -1138,6 +1211,8 @@
 
 
   </script>
+
+
   <div id="thanksModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="tmTitle" aria-hidden="true">
     <div class="box">
       <div class="heart">💚</div>
@@ -1146,6 +1221,156 @@
       <button class="btn" type="button" onclick="closeThanks()">Cerrar</button>
     </div>
   </div>
+
+  <div id="recipeModal" class="modal-receta" role="dialog" aria-modal="true" aria-labelledby="recipeTitle"
+    aria-hidden="true">
+    <div class="box">
+      <header>
+        <h3 id="recipeTitle">Receta</h3>
+        <button class="close" type="button" id="closeRecipeBtn">Cerrar</button>
+      </header>
+      <img id="recipeImg" class="heroimg" alt="">
+      <div id="recipeContent"></div>
+    </div>
+  </div>
+  <script>
+    // --- Data de recetas ---
+    const RECIPES = {
+      bowl: {
+        title: "Bowl power AM",
+        sections: [
+          {
+            h: "Granola proteica", items: [
+              "1 taza de avena",
+              "1 taza de soja texturizada",
+              "1/2 taza de frutos secos",
+              "1/2 taza de semillas (girasol, chía y zapallo)",
+              "3 cucharadas de miel",
+              "Yogur natural",
+              "Fruta para decorar"
+            ]
+          },
+          {
+            h: "Paso a paso", steps: [
+              "Mezclar en un bowl todos los ingredientes de la granola.",
+              "Llevar a horno sobre una asadera durante 30', mezclando cada 5'.",
+              "Dejar enfriar y servir con el yogur y fruta."
+            ]
+          }
+        ]
+      },
+      merienda: {
+        title: "Desayuno completo en nutrientes",
+        sections: [
+          {
+            h: "Ingredientes", items: [
+              "Pan integral (fibra y carbohidratos complejos)",
+              "Huevos revueltos (proteína)",
+              "Fruta (naranja) — vitamina C y fibra",
+              "Palta — grasas saludables y fibra"
+            ]
+          }
+        ]
+      },
+      torta: {
+        title: "Torta de manzanas tipo milhojas",
+        sections: [
+          {
+            h: "Ingredientes", items: [
+              "2 manzanas rojas o verdes",
+              "2 huevos",
+              "1/3 taza de aceite neutro",
+              "1/3 taza de endulzante a elección",
+              "1/2 taza de bebida vegetal",
+              "Esencia de vainilla",
+              "Ralladura de limón",
+              "1 taza de harina (integral y/o de avena)",
+              "1 cucharada de polvo para hornear"
+            ]
+          },
+          {
+            h: "Paso a paso", steps: [
+              "Batir los huevos con azúcar o edulcorante.",
+              "Agregar esencia de vainilla, ralladura de limón, el aceite y la bebida vegetal.",
+              "Añadir harina y polvo para hornear y mezclar.",
+              "Sumar las manzanas en rodajas y mezclar muy bien.",
+              "Llevar a budinera aceitada/enharinada. Horno medio 40'.",
+              "Dejar enfriar y desmoldar."
+            ]
+          }
+        ]
+      },
+      snack: {
+        title: "Snack saludable (untable de girasol y zanahoria)",
+        sections: [
+          {
+            h: "Ingredientes", items: [
+              "1 zanahoria mediana hervida",
+              "1 taza de semillas de girasol hidratadas (≥1 h) y enjuagadas",
+              "Jugo de 1/2 limón",
+              "Sal y pimienta",
+              "Aceite de oliva a gusto",
+              "Chorrito de agua si hace falta"
+            ]
+          },
+          {
+            h: "Paso a paso", steps: [
+              "Procesar con minipimer todos los ingredientes hasta obtener una mezcla untuosa."
+            ]
+          }
+        ]
+      }
+    };
+
+    // --- Modal helpers ---
+    const modal = document.getElementById("recipeModal");
+    const titleEl = document.getElementById("recipeTitle");
+    const imgEl = document.getElementById("recipeImg");
+    const contentEl = document.getElementById("recipeContent");
+
+    function openRecipe({ title, imgSrc, html }) {
+      titleEl.textContent = title;
+      imgEl.src = imgSrc || "";
+      imgEl.alt = title;
+      contentEl.innerHTML = html;
+      modal.classList.add("show");
+      modal.setAttribute("aria-hidden", "false");
+    }
+    function closeRecipe() {
+      modal.classList.remove("show");
+      modal.setAttribute("aria-hidden", "true");
+    }
+    document.getElementById("closeRecipeBtn").addEventListener("click", closeRecipe);
+    modal.addEventListener("click", e => { if (e.target === modal) closeRecipe(); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") closeRecipe(); });
+
+    // --- Click en tarjetas ---
+    document.querySelectorAll(".recipe-card[data-recipe]").forEach(card => {
+      card.addEventListener("click", () => {
+        const key = card.getAttribute("data-recipe");
+        const data = RECIPES[key];
+        if (!data) return;
+
+        // tratar de usar la misma imagen de la tarjeta
+        const imgInCard = card.querySelector("img");
+        const imgSrc = imgInCard ? imgInCard.getAttribute("src") : "";
+
+        // construir contenido HTML
+        let html = "";
+        for (const sec of data.sections) {
+          html += `<h4>${sec.h}</h4>`;
+          if (sec.items) {
+            html += "<ul>" + sec.items.map(i => `<li>${i}</li>`).join("") + "</ul>";
+          }
+          if (sec.steps) {
+            html += "<ol>" + sec.steps.map(s => `<li>${s}</li>`).join("") + "</ol>";
+          }
+        }
+
+        openRecipe({ title: data.title, imgSrc, html });
+      });
+    });
+  </script>
 
 </body>
 
