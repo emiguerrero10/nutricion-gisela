@@ -384,10 +384,7 @@
       object-fit: cover
     }
 
-    .resources .scroller {
-      grid-auto-columns: min(340px, 88%);
-      /* probá 340–380px a gusto */
-    }
+
 
     .timeline {
       display: grid;
@@ -403,13 +400,25 @@
       box-shadow: var(--shadow)
     }
 
+    .resources .scroller {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: min(300px, 80%);
+      /* ancho de cada tarjeta */
+      gap: 20px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+
     .resources .scroller::-webkit-scrollbar {
-      height: 8px
+      height: 8px;
     }
 
     .resources .scroller::-webkit-scrollbar-thumb {
       background: #d2eae0;
-      border-radius: 8px
+      border-radius: 8px;
     }
 
     .recipe-card {
