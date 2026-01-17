@@ -271,7 +271,7 @@ p{ margin: 0 0 1rem; color: var(--muted); }
 }
 
 /* Flechas */
-.about-slider .nav{
+.about-slider .about-nav {
   position:absolute;
   top:50%;
   transform: translateY(-50%);
@@ -291,7 +291,7 @@ p{ margin: 0 0 1rem; color: var(--muted); }
 
 .about-slider .prev{ left: 12px; }
 .about-slider .next{ right: 12px; }
-
+.about-slider { min-height: 420px; }
 /* Dots */
 .about-slider .dots{
   position:absolute;
