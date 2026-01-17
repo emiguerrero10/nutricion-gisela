@@ -451,10 +451,10 @@
       }
 
       const url = `/api/ebook?nombre=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}`;
-      window.location.href = url;
+      window.open(url, '_blank');
       openThanks();
     });
-    
+
 
 
   </script>

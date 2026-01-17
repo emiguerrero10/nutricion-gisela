@@ -1,6 +1,10 @@
 export default async function handler(req, res) {
   const { nombre = 'Anónimo', email } = req.query;
 
+  if (!process.env.RESEND_API_KEY) {
+    return res.status(500).send('Falta RESEND_API_KEY en Vercel.');
+  }
+
   // Email obligatorio (server-side)
   if (!email || !String(email).includes('@')) {
     return res.status(400).send('Email requerido para descargar el ebook.');
@@ -27,7 +31,9 @@ export default async function handler(req, res) {
     });
 
     if (!response.ok) {
-      throw new Error('Error enviando email');
+      const text = await response.text().catch(()=> '');
+      console.error('Resend error:', response.status, text);
+      return res.status(500).send(`Resend fallo (${response.status}): ${text}`);
     }
 
     // Redirige al PDF real
