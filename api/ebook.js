@@ -1,5 +1,10 @@
 export default async function handler(req, res) {
-  const { nombre = 'Anónimo', email = 'No informado' } = req.query;
+  const { nombre = 'Anónimo', email } = req.query;
+
+  // Email obligatorio (server-side)
+  if (!email || !String(email).includes('@')) {
+    return res.status(400).send('Email requerido para descargar el ebook.');
+  }
 
   try {
     const response = await fetch('https://api.resend.com/emails', {

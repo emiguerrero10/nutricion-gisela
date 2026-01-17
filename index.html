@@ -259,10 +259,10 @@
             <!-- Usa tu Form ID real ↓ -->
             <form id="leadForm" class="lead-form">
               <input type="text" name="nombre" placeholder="Tu nombre">
-              <input type="email" name="email" placeholder="Tu email (opcional)">
+              <input type="email" name="email" placeholder="Tu email" required>
               <button type="button" id="getGuideBtn" class="btn">Recibir la guía</button>
             </form>
-            <p class="lead-note">Prometido: nada de spam. Solo recursos útiles.</p>
+            <p class="lead-note">Para descargar la guía necesitamos tu email. Sin spam.</p>
           </div>
           <div class="lead-img">
             <img src="/img/nutricion1-10.jpg" alt="Portada guía de desayunos saludables">
@@ -428,36 +428,33 @@
     }
     function escClose(e) { if (e.key === 'Escape') closeThanks(); }
 
-    // --- Lead (descarga directa)
+    // --- Lead (descarga + notificación) - email obligatorio
     const getBtn = document.getElementById('getGuideBtn');
+    const leadForm = document.getElementById('leadForm');
 
     getBtn?.addEventListener('click', () => {
-      const name = document.querySelector('input[name="nombre"]').value || '';
-      const email = document.querySelector('input[name="email"]').value || '';
+      const name = leadForm?.querySelector('input[name="nombre"]')?.value?.trim() || '';
+      const emailInput = leadForm?.querySelector('input[name="email"]');
+      const email = emailInput?.value?.trim() || '';
+
+      // Email obligatorio
+      if (!email) {
+        showToast('Por favor ingresá tu email para recibir la guía 🙂', true);
+        emailInput?.focus();
+        return;
+      }
+      // Formato válido (HTML5)
+      if (emailInput && !emailInput.checkValidity()) {
+        showToast('Ingresá un email válido (ej: nombre@mail.com)', true);
+        emailInput.focus();
+        return;
+      }
 
       const url = `/api/ebook?nombre=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}`;
-
-      const a = document.createElement('a');
-      a.href = url;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-
+      window.location.href = url;
       openThanks();
     });
-
-    getBtn?.addEventListener('click', () => {
-      // Dispara la descarga
-      const a = document.createElement('a');
-      a.href = LEAD_PDF;
-      a.setAttribute('download', 'ebook-habitos-saludables.pdf'); // sugerencia de nombre
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-
-      // Muestra el modal
-      openThanks();
-    });
+    
 
 
   </script>
