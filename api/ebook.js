@@ -18,7 +18,7 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: 'Web Nutrición <onboarding@resend.dev>',
+        from: 'Lic. Gisela <hola@alimenta-tu-ser.com>',
         to: ['gisedeoro@gmail.com'], // 🔴 CAMBIAR por el mail real de Gisela
         subject: '📘 Nueva descarga del ebook',
         html: `
