@@ -951,8 +951,8 @@
         <div>
           <h3 style="margin:0">Lic. Gisela de Oro</h3>
           <p style="margin:.25rem 0 .5rem;color:#32524d">MP 4973 • Consultas online y presenciales</p>
-          <div class="note">🌿 <span> Acompaño procesos desde una alimentación variada, equilibrada y placentera,  
-            <b>buscando que comer también sea algo disfrutable y posible en la vida cotidiana</span>
+          <div class="note">🌿 <span> Acompaño procesos desde una alimentación variada, equilibrada y placentera,
+              <b>buscando que comer también sea algo disfrutable y posible en la vida cotidiana</span>
           </div>
         </div>
       </aside>
@@ -967,14 +967,46 @@
           <h2>Hola, soy Gisela</h2>
           <p>Soy nutricionista (MP 4973), especializada en hábitos saludables y alimentación consciente. Trabajo desde
             el placer de comer, con planes flexibles que se adaptan a tu vida real.</p>
-          <p>Mi mirada es integral: porque el acto de comer no es solo un acto físico y biológico, integra también emociones, cultura, vínculos y experiencias que le dan sentido a nuestra alimentación.</p>
+          <p>Mi mirada es integral: porque el acto de comer no es solo un acto físico y biológico, integra también
+            emociones, cultura, vínculos y experiencias que le dan sentido a nuestra alimentación.</p>
           <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">
             <span class="chip">Mindful eating</span>
             <span class="chip">Conducta alimentaria</span>
             <span class="chip">Salud digestiva</span>
           </div>
         </div>
-        <img class="about-photo reveal" src="/img/nutricion1-2.jpeg" alt="Ingredientes frescos y coloridos">
+        <div class="about-slider reveal" aria-label="Carrusel Sobre mí">
+          <div class="slides" id="aboutSlides">
+            <div class="slide is-active" style="--bg:url('/img/nutricion1-2.jpeg')"></div>
+            <div class="slide" style="--bg:url('/img/nutricion1-11.jpeg')"></div>
+            <div class="slide" style="--bg:url('/img/nutricion1-15.jpeg')"></div>
+            <div class="slide" style="--bg:url('/img/nutricion1-10.jpg')"></div>
+          </div>
+
+          <!-- Tarjeta fija con tu texto (NO cambia) -->
+          <div class="about-overlay" aria-label="Descripción profesional">
+            <h3>Hola, soy Gisela</h3>
+            <p>
+              Soy nutricionista (MP 4973), especializada en hábitos saludables y alimentación consciente. Trabajo desde
+              el placer de comer, con planes flexibles que se adaptan a tu vida real.
+            </p>
+            <p>
+              Mi mirada es integral: porque el acto de comer no es solo un acto físico y biológico, integra también
+              emociones, cultura, vínculos y experiencias que le dan sentido a nuestra alimentación.
+            </p>
+
+            <div class="about-chips">
+              <span class="chip">Mindful eating</span>
+              <span class="chip">Conducta alimentaria</span>
+              <span class="chip">Salud digestiva</span>
+            </div>
+          </div>
+
+          <button class="nav prev" type="button" aria-label="Anterior" id="aboutPrev">‹</button>
+          <button class="nav next" type="button" aria-label="Siguiente" id="aboutNext">›</button>
+          <div class="dots" id="aboutDots" aria-label="Indicadores del carrusel"></div>
+        </div>
+
       </div>
     </section>
 
@@ -1151,7 +1183,8 @@
       <div class="social">
         <a href="https://www.instagram.com/giselanutricion_/" target="_blank" rel="noopener"
           aria-label="Instagram">Instagram</a>
-        <a href="https://www.linkedin.com/in/gisela-de-oro-a27047183/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://www.linkedin.com/in/gisela-de-oro-a27047183/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
+          target="_blank" rel="noopener">LinkedIn</a>
         <a href="https://wa.me/5493543582107" target="_blank" rel="noopener">WhatsApp</a>
       </div>
     </div>
@@ -1467,6 +1500,8 @@
       });
     });
   </script>
+
+  <script src="script.js"></script>
 
 </body>
 
