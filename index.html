@@ -429,8 +429,22 @@
     function escClose(e) { if (e.key === 'Escape') closeThanks(); }
 
     // --- Lead (descarga directa)
-    const LEAD_PDF = '/docs/ebook-habitos-saludables.pdf';
     const getBtn = document.getElementById('getGuideBtn');
+
+    getBtn?.addEventListener('click', () => {
+      const name = document.querySelector('input[name="nombre"]').value || '';
+      const email = document.querySelector('input[name="email"]').value || '';
+
+      const url = `/api/ebook?nombre=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}`;
+
+      const a = document.createElement('a');
+      a.href = url;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      openThanks();
+    });
 
     getBtn?.addEventListener('click', () => {
       // Dispara la descarga
